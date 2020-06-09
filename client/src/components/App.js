@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import{ BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
 import Menu from './Home/menu'
 import Login from './login/index'
+import Register from './register/index'
   
  class App extends Component {
   render() {
@@ -11,7 +12,10 @@ import Login from './login/index'
        <Switch/>
        <Route exact path="/login">
          <Login/>
-       </Route>
+         </Route>
+       <Route exact path ="/Register">
+           <Register/>
+         </Route>
      </Router>
     )
   }
