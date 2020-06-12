@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import ValidationMessage from './validMgs'
 import '../App.css';
 
+
  class RegisterForm extends Component {
     state={ 
-        firstname:'',firstnameValid:false,
+        firstname:'',
         lastname:'',lastnameValid:false,
         email:'',emailValid:false,
         password:'',passwordValid:false,
@@ -12,55 +13,161 @@ import '../App.css';
         phone:'',phoneValid:false,
         address:'',addressValid:false,
         birthdate:'',birthdateValid:false,
-        errorsMsg:{}
-
+        errorsMsg: {}
     }
 
+
+//first name start
     handlefirstnameInput =(e)=>{
-        this.setState({...this.state, firstname:e.target.value
-       },this.validateFirstname)
+        this.setState({...this.state, firstname:e.target.value})
     }
+//firstName close
+    
 
-    validateFirstname =()=>{
-        const {firstname} = this.state;
-        let errorsMsg = {...this.state.errorsMsg};
-        let firstnameValid = true
-
-
-        if (firstname.length <2){
-            firstnameValid = false;
-            errorsMsg.firstname= 'Must be firstname at least 2 characers name'
-        }
-        this.setState({firstnameValid, errorsMsg})
-    }
-
-
-
+                          ///lastname start
 
         handlelastnameInput=(e)=>{
-            this.setState({...this.state, lastname:e.target.value})
+            this.setState({...this.state, lastname:e.target.value
+            },this.validateLastname )
         }
+
+             
+            validateLastname = () => {    
+                const {lastname} = this.state;
+                let errorsMsg = {...this.state.errorsMsg};
+                let lastnameValid = true
+        
+        
+                if (lastname.length <3){
+                    lastnameValid = false;
+                    errorsMsg.lastname= 'Must be lastname at least 3 characers name'
+                }
+                this.setState({lastnameValid, errorsMsg})
+             }
+        
+                                        //lastName close
+
+
         handleemailInput=(e)=>{
-            this.setState({...this.state, email:e.target.value})
+            this.setState({...this.state, email:e.target.value},
+                this.emalvalidate)
         }
+
+        emalvalidate=()=>{
+            const {email}=this.state;
+            let emailValid= true;
+            let errorsMsg={...this.state.errorsMsg}
+            if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+                emailValid=false;
+                errorsMsg.email ='Invalid you enterd'
+            }
+            this.setState({
+                emailValid,
+                errorsMsg
+            })
+        }
+
+
+
+
+
    
         handlepasswordInput=(e)=> {
-            this.setState({...this.state, password:e.target.value})
+            this.setState({...this.state, password:e.target.value},
+                this.passwordvalidate)
            
         }
+
+        
+
+        passwordvalidate =()=>{
+            const {password}=this.state;
+            let passwordValid=true;
+            let errorsMsg={...this.state.errorsMgs}
+            if(password.length<6){
+                passwordValid=false;
+                errorsMsg.password='Must be password at least 6 characters'
+            }
+            else if(!/\d/.test(password)){
+                passwordValid=false;
+                errorsMsg.password='Password must contain a digit';
+            }
+
+            else if(!/[!@#$%^&*]/.test(password)){
+                passwordValid=false;
+                errorsMsg.password='Password must contain special character:!@#$%^&*';
+            }
+            this.setState({passwordValid,errorsMsg});
+        }
+
+
+        handlepasswordConfirmationInput=(e)=>{
+            this.setState({...this.state, passwordConfirmation:e.target.value},
+                this.validatePasswordConfirm)
+        }
+
+        validatePasswordConfirm= ()=>{
+            const{passwordConfirmation,password}=this.state;
+            let passwordConfirmationValid=true;
+            let errorsMsg ={...this.state.errorsMsg}
+
+            if(password !== passwordConfirmation){
+                passwordConfirmationValid=false;
+                errorsMsg.passwordConfirmation='passwords do not match'
+            }
+            this.setState({passwordConfirmationValid,errorsMsg},this.validateForm);
+        }
    
+
+
+        //Phone start///////////////////////////////////////////
         handlephoneInput=(e)=>{
-            this.setState({...this.state, phone:e.target.value})
+            this.setState({...this.state, phone:e.target.value},
+                this.validatePhone)
+
         }
-   
+       
+           validatePhone=()=>{
+            const {phone} =this.state;
+           let errorsMsg ={...this.state.errorsMsg};
+           let phoneValid=true
+
+            if(phone.length <10){
+               phoneValid=false;
+                errorsMsg.phone='Must be phone number at least 10 characters'
+            }
+
+           
+            this.setState({phoneValid, errorsMsg})
+        }
+         
+
+                //Address start
+
         handleaddressInput=(e)=>{
-            this.setState({...this.state, address:e.target.value})
+            this.setState({...this.state, address:e.target.value},
+                this.validateAddress)
         }
-   
+
+        validateAddress=()=>{
+            const {address} =this.state;
+            let errorsMsg ={...this.state.errorsMsg};
+            let addressValid=true
+
+            if(address.length <5){
+                addressValid=false;
+                errorsMsg.address='Must be password at least 5 characters'
+            }
+            this.setState({addressValid, errorsMsg})
+        }
+
+                    //address Close
+
+
         handlebirthdateInput=(e)=>{
             this.setState({...this.state, birthdate:e.target.value})
         }
-        
+
    
    
    
@@ -68,28 +175,72 @@ import '../App.css';
             event.preventDefault()
             console.log(this.state)
         }
+
+
    
        render() {
            return (
-               <div>
+               <div className="App">
                    <form onSubmit={this.createAnAccount}>
                    <header>
-                       Registation Form
+                   Registration Form
                    </header> 
                 
                    
                        <div className='from-group'>
-                           <ValidationMessage valid={this.state.firstnameValid} message={this.state.errorsMsg.firstname}/>
-                           <label htmlFor='firstname'>Firstname</label>
-                       <input name='firstname' type="text" id='firstname' className='form-field' 
+                       <small>First name: </small>
+                       <input name='firstname' type="text" id='firstname' required="true" className='firstnameInput' 
                        value={this.state.firstname}  onChange={this.handlefirstnameInput } placeholder="enter your firstname"/>
                        </div>
-                       <input name='lastname' type="text" value={this.state.lastname}  onChange={this.handlelastnameInput } placeholder="enter your lastname" className="lastnameInput"/>
-                       <input name ='email' type="email" value={this.state.email} onChange={this.handleemailInput} placeholder="enter your email" className="emailInput"/>
-                       <input name ='password' type="password" value={this.state.password} onChange={this.handlepasswordInput} placeholder="enter your password" className="passwordInput"/>
-                       <input name ='phone' type="text" value={this.state.phone} onChange={this.handlephoneInput} placeholder="enter your phone number" className="phoneInput"/>
-                       <input name ='address' type="text" value={this.state.address} onChange={this.handleaddressInput} placeholder="enter your address" className="addressInput"/>
+
+
+
+                       <div className='from-group'>
+                       <ValidationMessage valid={this.state.lastnameValid} message={this.state.errorsMsg.lastname}/>
+                       <small>Last name: </small>
+                       <input name='lastname' type="text" id='lastname' required="true"  value={this.state.lastname}  onChange={this.handlelastnameInput } placeholder="enter your lastname" className="lastnameInput"/>
+                       </div>
+                        
+                        <div className='from-group'>
+                        <ValidationMessage valid={this.state.emailValid} message={this.state.errorsMsg.email}/>
+                        <small> Email-Id :       </small>
+                       <input name ='email' type="email" required="true" value={this.state.email} onChange={this.handleemailInput} placeholder="enter your email" className="emailInput"/>
+                        </div>
+
+                        <div className='from-group'>
+                            <ValidationMessage valid={this.state.passwordValid} message={this.state.errorsMsg.password}/>
+                        <small> Password : </small>
+                       <input name ='password' type="password" required="true" value={this.state.password} onChange={this.handlepasswordInput} placeholder="enter your password" className="passwordInput"/>
+                       </div>
+
+
+                       <div className='from-group'>
+                            <ValidationMessage valid={this.state.passwordConfirmationValid} message={this.state.errorsMsg.passwordConfirmation}/>
+                    <small>Confirm Password: </small>
+                        <input name ='password-confirmation' type="password" required="true" value={this.state.passwordConfirmation} onChange={this.handlepasswordConfirmationInput} placeholder="Please enter confirm password" className="passwordConfirmationInput"/>
+                       </div>
+
+                       <div className='from-group'>
+                       <ValidationMessage valid={this.state.addressValid} message={this.state.errorsMsg.address}/>
+                       <small>Address: </small>
+                       <input name ='address' type="text" required="true" value={this.state.address} onChange={this.handleaddressInput} placeholder="enter your address" className="addressInput"/>
+                       </div>
+
+                       <div className='from-group'>
+                           <ValidationMessage valid ={this.state.phoneValid} message={this.state.errorsMsg.phone}/>
+                           <small>Phone Number: </small>
+                       <input name ='phone' type="tel" id="phone" value={this.state.phone} onChange={this.handlephoneInput} placeholder="Enter area code and number" pattern="^[0-9-+\s()]*$" className="phoneInput"/>
+                       
+                       </div>
+
+                       <div className='from-group'>
+                       <small>Birthdate: </small>
                        <input name ='birthdate' type="date" value={this.state.birthdate} onChange={this.handlebirthdateInput} placeholder="enter your birthdate" className="birthdateInput"/>
+                       </div>
+                       <div className='from-group'>
+                    
+                       </div>
+
                        <input type="submit" value="Create An Account" />
                    </form>
                </div>

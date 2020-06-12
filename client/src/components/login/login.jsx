@@ -18,12 +18,21 @@ import React, { Component } from 'react'
      }
     render() {
         return (
-            <div>
+            <div className="App">
+                <header>
+                    Login Form
+                </header>
+                
                 <form onSubmit={this.handleSubmit}>
+                <div className="form-group">
                     <input name ='email' type="email" value={this.state.email} onChange={this.handleemailInput} placeholder="enter your email" className="emailInput"/>
+                    </div>
+                    <div className="form-group">
                     <input name ='password' type="password" value={this.state.password} onChange={this.handlepasswordInput} placeholder="enter your password" className="passwordInput"/>
+                    </div>
                     <input type="submit" value="Submit"/>
                 </form>
+                
             </div>
         )
     }
