@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Login from './login'
-class index extends Component {
+class LoginIndex extends Component {
     render() {
         return (
             <div>
@@ -9,4 +9,4 @@ class index extends Component {
         )
     }
 }
-export default Login
+export default LoginIndex

@@ -145,16 +145,16 @@ exports.Login = async(req, res) => {
         }
         
         //token create
-        const payload = {id:findUser.id, lastname:findUser.lastname, email:findUser.email}
+        const user = {id:findUser.id, lastname:findUser.lastname, email:findUser.email, loggedin:true}
 
-        jwt.sign(payload, process.env.JWT_SCREET,{expiresIn:'1h'},(err,token) =>{
+        jwt.sign(user, process.env.JWT_SCREET,{expiresIn:'1h'},(err,token) =>{
             if(err){
                 res.status(500).send({
                     'message':"Something went wrong"
                 })
             }
             res.status(200).send({
-                loggedin:true,
+                user,
                 token
             })
         })

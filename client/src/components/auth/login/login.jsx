@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-
+import Axios from 'axios';
+import { useHistory, withRouter } from "react-router-dom";
+import { Redirect } from 'react-router'
+import { authenticate , isAuth} from '../../utlis/auth'
  class loginForm extends Component {
      state = {
          email:'',
@@ -12,9 +15,23 @@ import React, { Component } from 'react'
          this.setState({...this.state,password:e.target.value})
      }
 
+     componentDidMount() {
+         if(isAuth() && isAuth().loggedin) {
+this.props.history.push('/')
+         }
+     }
+
      handleSubmit = (event) =>{
          event.preventDefault()
-         console.log(this.state)
+         const {email, password}= this.state
+
+
+         Axios.post(`api/v1/user/login`,{ email, password})
+         .then(response=>{
+            authenticate(response,() => isAuth() && isAuth().loggedin ? this.props.history.push('/'):'' )
+             console.log(response.data);
+         })
+
      }
     render() {
         return (
@@ -31,10 +48,12 @@ import React, { Component } from 'react'
                     <input name ='password' type="password" value={this.state.password} onChange={this.handlepasswordInput} placeholder="enter your password" className="passwordInput"/>
                     </div>
                     <input type="submit" value="Submit"/>
+                    {console.log(isAuth())}
+     {JSON.stringify(isAuth())}
                 </form>
                 
             </div>
         )
     }
 }
-export default loginForm;
+export default withRouter(loginForm);

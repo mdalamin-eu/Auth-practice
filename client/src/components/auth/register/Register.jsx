@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import ValidationMessage from './validMgs'
-import '../App.css';
+import Axios from 'axios';
+import {  isAuth} from '../../utlis/auth'
+import '../../App.css';
+import {withRouter} from 'react-router-dom'
 
 
  class RegisterForm extends Component {
@@ -167,15 +170,32 @@ import '../App.css';
         handlebirthdateInput=(e)=>{
             this.setState({...this.state, birthdate:e.target.value})
         }
-
+        componentDidMount() {
+            if(isAuth() && isAuth().loggedin) {
+  this.props.history.push('/')
+             
+            }
+        }
    
    
    
         createAnAccount = (event) =>{
             event.preventDefault()
-            console.log(this.state)
+            const {firstname, lastname, email, password,address,phone, birthdate} =this.state
+            const data = {
+               firstname, lastname, email, password,address,phone, birthdate
+            }
+            
+
+            Axios.post(`api/v1/user/add`, {firstname, lastname, email, password,address,phone, birthdate})
+            .then(res=>{
+                console.log(res);
+                console.log(res.data);
+            })
         }
 
+
+       
 
    
        render() {
@@ -247,4 +267,4 @@ import '../App.css';
            );
        }
     }
-export default RegisterForm
+export default withRouter(RegisterForm)
