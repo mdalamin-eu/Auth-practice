@@ -1,7 +1,11 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-
+import  { logout } from '../utlis/auth'
 const Menu = () =>{
+    const logouta = () =>  {
+        console.log('hi', logout)
+logout()
+    }
     return(
         <div>
             <ul>
@@ -13,6 +17,9 @@ const Menu = () =>{
                 </li>
                 <li>
                     <Link to="/register">Register</Link>
+                </li>
+                <li>
+                    <Link onClick={logouta}>Logout</Link>
                 </li>
             </ul>
         </div>

@@ -1,4 +1,5 @@
 import cookie from 'js-cookie'
+import { Router } from 'react-router-dom'
 
 export const setCookie  = (key,value) => {
     console.log(key,value)
@@ -10,7 +11,11 @@ export const setCookie  = (key,value) => {
 
 }
 
-
+export const removeCookie = (key)=>{
+    if(process.browser){
+        cookie.remove(key)
+    }
+}
 
 export const getCookie = key => {
        if(process.browser) {
@@ -28,7 +33,11 @@ export const setLocalStorage  = (key, value) => {
 
 }
 
-
+export const removeLocalStorage = key => {
+    if(process.browser){
+        localStorage.removeItem(key)
+    }
+}
 
 export const  authenticate = (response, next) => {
     console.log(response.data)
@@ -50,4 +59,11 @@ export const isAuth = () => {
             }
          }
      }
+}
+
+
+export const logout = () => {
+    removeCookie('token')
+    removeLocalStorage('user')
+    
 }
