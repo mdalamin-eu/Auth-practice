@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import ValidationMessage from './validMgs'
-import Axios from 'axios';
+
 import {  isAuth} from '../../utlis/auth'
 import '../../App.css';
 import {withRouter} from 'react-router-dom'
-
+import {connect} from 'react-redux'
+import { RegisterUser} from '../../Actions/action'
 
  class RegisterForm extends Component {
     state={ 
@@ -185,13 +186,8 @@ import {withRouter} from 'react-router-dom'
             const data = {
                firstname, lastname, email, password,address,phone, birthdate
             }
-            
-
-            Axios.post(`api/v1/user/add`, {firstname, lastname, email, password,address,phone, birthdate})
-            .then(res=>{
-                console.log(res);
-                console.log(res.data);
-            })
+            this.props.RegisterUser(data)
+          
         }
 
 
@@ -267,4 +263,13 @@ import {withRouter} from 'react-router-dom'
            );
        }
     }
-export default withRouter(RegisterForm)
+
+    const mapStateToProps = (state) => {
+        return {
+    RegisterUser:state.appState
+        }
+
+    }
+
+
+export default connect(mapStateToProps, {RegisterUser})( withRouter(RegisterForm))

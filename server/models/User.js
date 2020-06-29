@@ -12,4 +12,4 @@ const UserSchema = new Schema({
 
 })
 
-module.exports=mongoose.model('DataNew',UserSchema)
+module.exports=mongoose.model('Info',UserSchema)
