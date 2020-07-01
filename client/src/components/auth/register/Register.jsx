@@ -195,8 +195,10 @@ import { RegisterUser} from '../../Actions/action'
 
    
        render() {
+        
            return (
                <div className="App">
+                   {this.props. RegUser}
                    <form onSubmit={this.createAnAccount}>
                    <header>
                    Registration Form
@@ -266,7 +268,7 @@ import { RegisterUser} from '../../Actions/action'
 
     const mapStateToProps = (state) => {
         return {
-    RegisterUser:state.appState
+    RegUser:state.appState.RegUser
         }
 
     }

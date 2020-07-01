@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import Axios from 'axios';
+
 import { useHistory, withRouter } from "react-router-dom";
 import { Redirect } from 'react-router'
 import { authenticate , isAuth} from '../../utlis/auth'
+import {connect} from 'react-redux'
+import { LoginUser } from '../../Actions/action'
  class loginForm extends Component {
      state = {
          email:'',
@@ -24,14 +26,9 @@ this.props.history.push('/')
      handleSubmit = (event) =>{
          event.preventDefault()
          const {email, password}= this.state
-
-
-         Axios.post(`api/v1/user/login`,{ email, password})
-         .then(response=>{
-            authenticate(response,() => isAuth() && isAuth().loggedin ? this.props.history.push('/'):'' )
-             console.log(response.data);
-         })
-
+         const data ={ email, password}
+         this.props.LoginUser(data)
+         
      }
     render() {
         return (
@@ -56,4 +53,10 @@ this.props.history.push('/')
         )
     }
 }
-export default withRouter(loginForm);
+
+const mapStateToProps= (state)=>{
+    return{
+        LogginUser:state.appState.LogginUser
+    }
+}
+export default connect(mapStateToProps,{LoginUser} )(withRouter(loginForm));
