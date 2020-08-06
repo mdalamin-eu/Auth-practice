@@ -16,7 +16,7 @@ export const RegisterUser = (data)=> async dispatch =>{
 export const LoginUser= (data)=> async dispatch =>{
   try {
     console.log(history)
-    const res = await Axios.post(`api/v1/user/login`, data)
+    const res = await Axios.post(`/api/v1/user/login`, data)
     console.log(res.data)
     authenticate(res,()=> isAuth());
       dispatch({type:LOGIN_USER,  payload:res.data} )
