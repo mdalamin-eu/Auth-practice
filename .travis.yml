@@ -1,0 +1,18 @@
+sudo: required
+services:
+  - docker
+before_install:
+    - sudo apt-get update -qq
+    - sudo apt-get install -qq  nodejs
+node_js:
+        - 0.8.21
+script:
+  - docker build -t 0442438792/multi-client ./client
+  - docker build -t 0442438792/multi-nginx ./nginx
+  - docker build -t 0442438792/multi-server ./server
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push 0442438792/multi-client
+  - docker push 0442438792/multi-nginx
+  - docker push 0442438792/multi-server
